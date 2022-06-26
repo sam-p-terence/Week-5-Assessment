@@ -19,18 +19,18 @@ module.exports = {
         sequelize.query(`
         SELECT * FROM countries`) 
         .then((dbRes) => {
-            // console.log("WTF",dbRes)
             res.status(200).send(dbRes[0])}
             )
         .catch(err => console.log('error seeding DB', err))
     },
     createCity: (req, res) => {
-        let {
+        const {
             name,
             rating,
             countryId
         } = req.body
-        sequelize.query(`INSERT INTO cities (name, rating, country_id) 
+        sequelize.query(`
+        INSERT INTO cities (name, rating, country_id) 
         VALUES (${name}, ${rating}, ${countryId});`
         )
         .then((dbRes) => {
@@ -39,7 +39,7 @@ module.exports = {
         .catch(err => console.log('error adding city', err))
     },
     seed: (req, res) => {
-        console.log("yo")
+        // console.log("yo")
         sequelize.query(`
             drop table if exists cities;
             drop table if exists countries;
