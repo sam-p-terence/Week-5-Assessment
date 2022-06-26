@@ -23,21 +23,36 @@ module.exports = {
             )
         .catch(err => console.log('error seeding DB', err))
     },
-    createCity: (req, res) => {
-        const {
-            name,
-            rating,
-            countryId
-        } = req.body
-        sequelize.query(`
-        INSERT INTO cities (name, rating, country_id) 
-        VALUES (${name}, ${rating}, ${countryId});`
-        )
-        .then((dbRes) => {
-            res.status(200).send(dbRes[0])}
-            )
-        .catch(err => console.log('error adding city', err))
-    },
+    // createCity: (req, res) => {
+    //     const {
+    //         name,
+    //         rating,
+    //         countryId
+    //     } = req.body
+    //     sequelize.query(`
+    //     INSERT INTO cities (name, rating, country_id) 
+    //     VALUES (${name}, ${rating}, ${countryId});`
+    //     )
+    //     .then((dbRes) => {
+    //         res.status(200).send(dbRes[0])}
+    //         )
+    //     .catch(err => console.log('error adding city', err))
+    // },
+
+    // getCities: (req, res) => {
+    //     const {
+    //                 name,
+    //                 rating,
+    //                 countryId
+    //             } = req.body
+    //             console.log("Bro", req.body)
+    //     sequelize.query(`
+    //     SELECT * FROM cities JOIN countries 
+    //     ON city_id = country_id
+    //     WHERE country_id = ${countryId};
+    //     `)
+    // },
+
     seed: (req, res) => {
         // console.log("yo")
         sequelize.query(`
