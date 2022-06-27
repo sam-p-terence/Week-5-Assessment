@@ -23,31 +23,31 @@ module.exports = {
             )
         .catch(err => console.log('error seeding DB', err))
     },
-    // createCity: (req, res) => {
-    //     const {
-    //         name,
-    //         rating,
-    //         countryId
-    //     } = req.body
-    //     sequelize.query(`
-    //     INSERT INTO cities (name, rating, country_id) 
-    //     VALUES (${name}, ${rating}, ${countryId});`
-    //     )
-    //     .then((dbRes) => {
-    //         res.status(200).send(dbRes[0])}
-    //         )
-    //     .catch(err => console.log('error adding city', err))
-    // },
-
-    getCities: (req, res) => {
+    createCity: (req, res) => {
+        const {
+            name,
+            rating,
+            countryId
+        } = req.body
         sequelize.query(`
-        SELECT * FROM cities JOIN countries 
-        ON city_id = country_id
-        WHERE country_id = ${countryId};`
-        ).then((dbRes) => {
-        res.status(200).send(dbRes[0])}
-        ).catch(err => console.log('error adding city', err))
+        INSERT INTO cities (name, rating, country_id) 
+        VALUES (${name}, ${rating}, ${countryId});`
+        )
+        .then((dbRes) => {
+            res.status(200).send(dbRes[0])}
+            )
+        .catch(err => console.log('error adding city', err))
     },
+
+    // getCities: (req, res) => {
+    //     sequelize.query(`
+    //     SELECT * FROM cities JOIN countries 
+    //     ON city_id = country_id
+    //     WHERE country_id = ${countryId};`
+    //     ).then((dbRes) => {
+    //     res.status(200).send(dbRes[0])}
+    //     ).catch(err => console.log('error adding city', err))
+    // },
 
     seed: (req, res) => {
         // console.log("yo")
