@@ -43,6 +43,7 @@ module.exports = {
         sequelize.query(`
         SELECT * FROM cities JOIN countries 
         ON city_id = country_id
+        ORDER BY COUNT(*)
         WHERE country_id = ${countryId};`
         ).then((dbRes) => {
         res.status(200).send(dbRes[0])}
