@@ -54,7 +54,7 @@ module.exports = {
         DELETE 
         FROM cities
         WHERE city_id = ${city_id}`
-        ).then(dbRes => res.status(200).send(dbRes[0])
+        ).then((dbRes) => res.status(200).send(dbRes[0])
         ).catch(err => console.log('error adding city', err))
     },
 
