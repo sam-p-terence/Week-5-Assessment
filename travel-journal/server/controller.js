@@ -23,40 +23,51 @@ module.exports = {
             )
         .catch(err => console.log('error seeding DB', err))
     },
+
     createCity: (req, res) => {
-        const {
-            name,
-            rating,
-            countryId
-        } = req.body
+        const {name, rating, countryId} = req.body
         sequelize.query(`
-        INSERT INTO cities (name, rating, country_id) 
-        VALUES (${name}, ${rating}, ${countryId});`
+            INSERT INTO cities
+            (name, rating, country_id)
+            VALUES
+            ('${name}', ${rating}, ${countryId});
+        `)
+        .then(dbRes =>
+            res.status(200).send(dbRes[0])
         )
-        .then((dbRes) => {
-            res.status(200).send(dbRes[0])}
-            )
-        .catch(err => console.log('error adding city', err))
+        .catch(err => {
+            console.log(err)
+            res.status(500).send()
+        })
     },
 
     getCities: (req, res) => {
         sequelize.query(`
-        SELECT * FROM cities JOIN countries 
-        ON city_id = country_id
-        ORDER BY COUNT(*)
-        WHERE country_id = ${countryId};`
-        ).then((dbRes) => {
-        res.status(200).send(dbRes[0])}
-        ).catch(err => console.log('error adding city', err))
-    },
-
-    deleteCities: (req, res) => {
-        sequelize.query(`
-        DELETE 
+        SELECT city_id, cities.name AS city, rating, countries.country_id, countries.name AS country
         FROM cities
-        WHERE city_id = ${city_id}`
-        ).then((dbRes) => res.status(200).send(dbRes[0])
-        ).catch(err => console.log('error adding city', err))
+        JOIN countries
+        ON cities.country_id = countries.country_id
+        ORDER BY rating DESC;
+        `).then((dbRes) => {
+            res.status(200).send(dbRes[0])}
+        ).catch(err => {
+            console.log(err)
+            res.status(500).send()
+        })
+    },
+    deleteCity: (req, res) => {
+        const {id} = req.params
+        sequelize.query(`
+            DELETE FROM cities
+            WHERE city_id = ${id}
+        `)
+        .then(dbRes =>
+            res.status(200).send(dbRes[0])
+        )
+        .catch(err => {
+            console.log(err)
+            res.status(500).send()
+        })
     },
 
     seed: (req, res) => {
@@ -72,9 +83,9 @@ module.exports = {
 
             CREATE TABLE cities (
                 city_id SERIAL PRIMARY KEY,
-                name VARCHAR (50),
-                rating INTEGER,
-                country_id INTEGER
+                name VARCHAR (50) NOT NULL,
+                rating INTEGER NOT NULL,
+                country_id INTEGER NOT NULL REFERENCES countries (country_id)
             );
 
             insert into countries (name)
@@ -279,3 +290,6 @@ module.exports = {
         }).catch(err => console.log('error seeding DB', err))
     }
 }
+
+
+
